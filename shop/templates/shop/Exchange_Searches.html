@@ -1,0 +1,62 @@
+{% extends 'shop/basic.html' %}
+{% block body%}
+<div class="album py-5 bg-light">
+    <div class="container my-2">
+    
+    <div class="row">
+    
+   
+    <p class="text-center my-2 col-sm-1">filter by: </p>
+    <div class="dropdown  col-sm-2">
+  <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Category
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="#">Engieering</a>
+    <a class="dropdown-item" href="#">Medical</a>
+    <a class="dropdown-item" href="#">Arts</a>
+    <a class="dropdown-item" href="#">Law</a>
+    <a class="dropdown-item" href="#">Higher secondary</a>
+    <a class="dropdown-item" href="#">School</a>
+  </div>
+</div>
+<form class="form-inline col-sm-4 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Enter author name" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Filter</button>
+    </form>
+</div>
+</div>
+    <div class="container">
+        <div class="row my-3">
+        {% for i in allitem  %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="/media/{{i.img1}}"class="bd-placeholder-img" width="200" height="250" 
+      aria-label="Placeholder: Thumbnail">
+                    <div class="card-body">
+                        <p class="card-text">{{i.bookname}}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="/shop/Exchnage/buy/bookid={{i.seller_id}}/bookname={{i.bookname}}/" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            </div>
+                            <small class="text-muted">9 mins</small>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+        
+        {% if forloop.counter|divisibleby:3 %}
+            </div>
+        <div class="row">
+        {% endif %}
+        {% endfor %}
+        </div>
+        
+
+    </div>
+</div>
+
+{% endblock %}

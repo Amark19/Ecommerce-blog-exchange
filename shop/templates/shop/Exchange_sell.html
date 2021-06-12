@@ -1,0 +1,137 @@
+{% extends 'shop/basic.html' %}
+{% block body%}
+<div class="container  my-4">
+<form action="/shop/Exchnage/sell/" method="post" enctype="multipart/form-data">
+{{ form.as_p }} 
+{% csrf_token %}
+  <div class="form-group">
+    <label for="formGroupExampleInput">Book Name</label>
+    <input type="text" class="form-control" name="bookname" id="bname" placeholder="Book Name">
+  </div>
+  <div class="form-group">
+    <label for="formGroupExampleInput2">Author Name</label>
+    <input type="text" class="form-control" name="bookauthor" id="Aname" placeholder="Book Author">
+  </div>
+  <div class="form-group">
+      <label class="mr-sm-2" for="inlineFormCustomSelect">Book Category</label>
+      <select name="bookcategory" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+        <option selected>Choose...</option>
+        <option value="1">Engineering</option>
+        <option value="2">Medical</option>
+        <option value="3">Arts</option>
+        <option value="4">law</option>
+        <option value="5">Higher Secondary</option>
+      </select>
+    </div>
+    <div class="form-group">
+    <label for="exampleFormControlTextarea1">Title(max 30 words)</label>
+    <textarea class="form-control" id="Title" name="title" rows="3"></textarea>
+  </div>
+  <div class="form-group">
+      <label class="mr-sm-2" for="inlineFormCustomSelect">Used Time</label>
+      <select name="usedtime" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+        <option selected>Choose...</option>
+        <option value="1">less than a month</option>
+        <option value="2">More than a month less than 6 month</option>
+        <option value="3">a year</option>
+        <option value="4">More than a year less than 3 year</option>
+        <option value="5">More than 3 year</option>
+      </select>
+    </div>
+  <div class="form-group">
+    <label for="formGroupExampleInput2">Set a price</label>
+    <input type="text" class="form-control" name="price" id="price" placeholder="Price">
+  </div>
+ 
+  <div class="form-group">
+    <label for="formGroupExampleInput2">Enter city</label>
+    <input type="text" class="form-control" name="city" id="city" placeholder="city">
+  </div>
+
+    
+ 
+ 
+  
+  <button id="getlocation" class="my-2 exchange btn btn-outline-primary  mx-2">Fetch Location</button>
+  <div id="demo" claas="mx-4 w-50" style="height:500px; display:none"></div>
+  <div class="my-3">
+  <label for="formFileSm" class="form-label">Image 1</label>
+  <input class="form-control form-control-sm" name="img1" id="img1" type="file">
+</div>
+  <div class="my-3">
+  <label for="formFileSm" class="form-label">Image 2</label>
+  <input class="form-control form-control-sm" id="img1" name="img2" type="file">
+</div>
+    <input type="text" style="display:none;" class="form-control" name="long" id="long" >
+    <input type="text" style="display:none;" class="form-control" name="latt" id="latt" >
+
+{% comment %} <div id='long'></div>
+<div id='latt'></div> {% endcomment %}
+  <button type="submit" class="my-2 exchange btn btn-outline-primary  mx-2">Submit</button>
+</form>
+
+
+</div>
+{% endblock %}
+{% block js %}
+        <script src="https://maps.google.com/maps/api/js?sensor=false"> </script>   
+
+        <script type="text/javascript">   
+         {% if than %}
+         alert('Your ad has been posted succesfully')
+        document.location="/shop"
+         {% endif %}
+         
+        $('#getlocation').click(function (e){   
+
+            if(navigator.geolocation){ 
+                document.getElementById('demo').style.display="block"  
+                navigator.geolocation.getCurrentPosition(showPos, showErr);   
+            }  
+            else{  
+                alert("Sorry! your Browser does not support Geolocation API")  
+            }  
+        
+        //Showing Current Poistion on Google Map  
+        function showPos(position){   
+            latt = position.coords.latitude;   
+            long = position.coords.longitude;   
+            document.getElementById('long').value=long
+            document.getElementById('latt').value=latt
+            var lattlong = new google.maps.LatLng(latt, long);  
+            console.log(latt) 
+            console.log(long) 
+            var myOptions = {   
+                center: lattlong,   
+                zoom: 15,   
+                mapTypeControl: true,   
+                navigationControlOptions: {style:google.maps.NavigationControlStyle.SMALL}   
+            }   
+            var maps = new google.maps.Map(document.getElementById("demo"), myOptions);   
+            var markers =   
+            new google.maps.Marker({position:lattlong, map:maps, title:"You are here!"});   
+        }   
+  
+        //Handling Error and Rejection  
+             function showErr(error) {  
+              switch(error.code){  
+              case error.PERMISSION_DENIED:  
+             alert("User denied the request for Geolocation API.");  
+              break;  
+             case error.POSITION_UNAVAILABLE:  
+             alert("USer location information is unavailable.");  
+            break;  
+            case error.TIMEOUT:  
+            alert("The request to get user location timed out.");  
+            break;  
+           case error.UNKNOWN_ERROR:  
+            alert("An unknown error occurred.");  
+            break;  
+           }  
+        }  
+        
+
+      e.preventDefault()
+      });
+        </script> 
+{% endblock  %}

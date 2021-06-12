@@ -1,0 +1,59 @@
+{% extends 'shop/basic.html' %}
+{% block body%}
+<div class="container my-5">
+<div class="row featurette " >
+      <div class="col-md-4 order-md-2 rounded border border-secondary">
+        <h1 class="featurette-heading">₹ {{item.price}}</h1>
+        <h4 class=" my-2">{{item.bookname}}</h4>
+        <p class="lead my-2">For above book ,name of author is {{item.bookauthor}}</p>
+        <hr class="bg-dark my-2">
+        <h4 class="featurette-heading my-4">SellerDetails</h4>
+        <p class="lead my-2">To buy these book.You first have to contact with seller</p>
+        <button class="btn btn-primary my-2">Contact</button>
+        <hr class="bg-dark my-2">
+        <h5 class="featurette-heading my-4">Posted in</h5>
+        <p class="text-muted my-2">{{item.location}}</p>
+      </div>
+      <div class="col-md-8 order-md-1">
+      <div id="carouselExampleIndicators"  class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner" style="height:500px">
+    <div class="carousel-item active">
+      <img src="/media/{{item.img1}}" class="d-block w-100"  alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="/media/{{item.img1}}" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="/media/{{item.img1}}" class="d-block w-100" alt="...">
+    </div>
+
+ 
+   
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+        <p class=" font-weight-bold my-3">Some description from seller:</p>
+        <p class="lead my-4">item.title}}rbyhehdrhyyyyyyyyyrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr[30/May/2021 03:06:17] "GET /shop/Exchnage/buy/bookid=22/bookname=Maths-3/ HTTP/1.1" 200 5458
+SellerDetails object (22)
+[30/May/2021 03:06:29] "GET /shop/Exchnage/buy/bookid=22/bookname=Maths-3/ HTTP/1.1" 200 5459
+SellerDetails object (18)
+[30/May/2021 03:07:01] "GET /shop/Exchnage/buy/bookid=18/bookname=Maths-3/ HTTP/1.1" 200 5328
+Not Found: /media/
+[30/May/2021 03:07:01] "GET /media/ HTTP/1.1" 404 1733
+SellerDetails object (21)</p>
+      </div>
+    </div>
+</div>
+{% endblock %}

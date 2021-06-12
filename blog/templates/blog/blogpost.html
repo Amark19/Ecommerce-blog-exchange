@@ -1,0 +1,58 @@
+{% extends 'shop/basic.html' %}
+{% block body %}
+<div class="container">
+
+    <div class="row mt-4">
+        <div class="col-md-8 blog-main">
+            <h3 class="font-italic border-bottom">
+                Title
+            </h3>
+
+            <div class="blog-post">
+                <h2 class="blog-post-title">{{post.title}}</h2>
+                
+                <p class="blog-post-meta">{{post.pub_date}} by <a href="#">Amar</a></p>
+                
+                <h2>{{post.head0}}</h2>
+                <p>{{post.chead0}}</p>
+                
+                <h2>{{post.head1}}</h2>
+                <p>{{post.chead1}}</p>
+                <h2>{{post.head2}}</h2>
+                <p>{{post.chead2}}</p>
+                <div class="fb-comments" data-href="http://127.0.0.1:8000/blog/blogpost/{{post.post_id}}" data-numposts="5" data-width=""></div>
+               
+               {% if post.post_id > 0  and  post.post_id < x|add:1 %}
+               <a href="{{post.post_id|add:-1}}"><button type="button" class="btn btn-primary">Previous Blog</button>
+              
+               <a href="{{post.post_id|add:1}}"><button type="button" class="btn btn-primary">Next Blog</button></a>
+                {% endif %}
+ </div><!-- /.blog-main -->
+ </div><!-- /.blog-post -->
+        <aside class="col-md-4 blog-sidebar">
+            <div class="p-4 mb-3 bg-light rounded">
+                <h4 class="font-italic">About</h4>
+                <p class="mb-0">My Cart is an <em> E-com website</em> You can use it for buy search items online.</p>
+            </div>
+<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="standard" data-action="like" data-size="large" data-share="true"></div>
+                
+            
+
+            <div class="p-4">
+                <h4 class="font-italic">Contact us on:</h4>
+                <ol class="list-unstyled">
+                    <li><a href="#">GitHub</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ol>
+            </div>
+        </aside><!-- /.blog-sidebar -->
+
+    </div>
+
+</div>
+</div>
+{% endblock %}
+<script>
+
+</script>
