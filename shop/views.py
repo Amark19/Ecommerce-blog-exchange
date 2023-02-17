@@ -4,33 +4,23 @@ from .models import Product,Contact,Orders,Orderupdate,SellerDetails
 from math import ceil
 from django.views.decorators.csrf import csrf_exempt
 import json
-from paytm import checksum
 from .form import ImageForm 
 MERCHANT_KEY='fO!j#7_jy@U66lX_'
 """username:Amar
     password:Amar123"""
 def index(request):
     products=Product.objects.all()
-    print(products)
-    # n=len(products)
-    # nslides=n//4+ceil((n/4-n//4))
-    # params={'no_of_slides':nslides,'range':range(1,nslides),'product':products}
+    # print("products =>" , products)
     allprods=[]
     catprods=Product.objects.values('category','id')
     # print(catprods)
-    cats={item['category'] for item in catprods}
-    # print(cats)
-    for cat in cats:
-        prod=Product.objects.filter(category=cat)
-        print(prod)
+    all_categories = {item['category'] for item in catprods}
+    for category in all_categories:
+        prod=Product.objects.filter(category=category)
+        print(prod)#object for each category
         n=len(prod)
         nslides=n//4+ceil((n/4)-(n//4))
-        
-                
         allprods.append([prod,range(1,nslides),nslides])
-
-    # allprods=[[products,range(1,nslides),nslides],
-    #             [products,range(1,nslides),nslides]]
     params={'allprods':allprods}
     return render(request,'shop/index.html',params)
 def about(request): 
@@ -104,37 +94,37 @@ def prodview(request,myid):
     
     return render(request,'shop/prodciew.html',{'product':product[0]})
 def checkout(request):
-    if request.method=='POST':
-        items_json=request.POST.get('itemsJson','')
-        name=request.POST.get('name','')
-        amount=request.POST.get('amount','')
-        email=request.POST.get('email','')
-        address=request.POST.get('address1','') + "/" +request.POST.get('address2','')
-        city=request.POST.get('city','')
-        state=request.POST.get('state','')
-        zip_code=request.POST.get('zip_code','')
-        phone_no=request.POST.get('phone_no','')
-        order=Orders(items_json=items_json,name=name,email=email,address=address,city=city,state=state,zip_code=zip_code,phone_no=phone_no,amnt=amount)
-        order.save()
-        thank=True
-        id=order.order_id
-        update=Orderupdate(order_id=order.order_id,update_desc='The order has been place')
-        update.save()
+    # if request.method=='POST':
+    #     items_json=request.POST.get('itemsJson','')
+    #     name=request.POST.get('name','')
+    #     amount=request.POST.get('amount','')
+    #     email=request.POST.get('email','')
+    #     address=request.POST.get('address1','') + "/" +request.POST.get('address2','')
+    #     city=request.POST.get('city','')
+    #     state=request.POST.get('state','')
+    #     zip_code=request.POST.get('zip_code','')
+    #     phone_no=request.POST.get('phone_no','')
+    #     order=Orders(items_json=items_json,name=name,email=email,address=address,city=city,state=state,zip_code=zip_code,phone_no=phone_no,amnt=amount)
+    #     order.save()
+    #     thank=True
+    #     id=order.order_id
+    #     update=Orderupdate(order_id=order.order_id,update_desc='The order has been place')
+    #     update.save()
         
-        # return render(request,'shop/checkout.html',{'thank':thank,'id':id})
-        # request payttm to transfer the amount to ur account  after payment by user
-        param_dict={
-                'MID':'aPtxBs22076670920236',
-                'ORDER_ID': str(order.order_id),
-                'TXN_AMOUNT': str(amount),
-                'CUST_ID': email,
-                'INDUSTRY_TYPE_ID': 'Retail',
-                'WEBSITE': 'WEBSTAGING',
-                'CHANNEL_ID': 'WEB',
-                'CALLBACK_URL':'http://127.0.0.1:8000/shop/handlerequest/',
-        }
-        param_dict['CHECKSUMHASH']=checksum.generate_checksum(param_dict,MERCHANT_KEY)
-        return render(request,'shop/paytm.html',{'param_dict':param_dict})
+    #     # return render(request,'shop/checkout.html',{'thank':thank,'id':id})
+    #     # request payttm to transfer the amount to ur account  after payment by user
+    #     param_dict={
+    #             'MID':'aPtxBs22076670920236',
+    #             'ORDER_ID': str(order.order_id),
+    #             'TXN_AMOUNT': str(amount),
+    #             'CUST_ID': email,
+    #             'INDUSTRY_TYPE_ID': 'Retail',
+    #             'WEBSITE': 'WEBSTAGING',
+    #             'CHANNEL_ID': 'WEB',
+    #             'CALLBACK_URL':'http://127.0.0.1:8000/shop/handlerequest/',
+    #     }
+    #     param_dict['CHECKSUMHASH']=checksum.generate_checksum(param_dict,MERCHANT_KEY)
+    #     return render(request,'shop/paytm.html',{'param_dict':param_dict})
     return render(request,'shop/checkout.html')
 @csrf_exempt
 def handlereq(request):
